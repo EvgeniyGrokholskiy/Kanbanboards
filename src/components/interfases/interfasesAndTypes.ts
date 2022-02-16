@@ -1,5 +1,22 @@
 import {ReactNode} from "react";
-import {IState} from "../../redux/stateMock";
+
+interface IIssue {
+    id: number
+    name: string
+    description: string
+}
+
+interface IIssueLog {
+    title: string
+    issues: Array<IIssue>
+}
+
+export interface IState {
+    backlog: IIssueLog
+    ready: IIssueLog
+    inProgress: IIssueLog
+    finished: IIssueLog
+}
 
 export interface IHeaderProps {
     isOpen: boolean
@@ -26,7 +43,7 @@ export interface IFooterProps {
 }
 
 export interface ITask {
-    id: number
+    id: number | string
     name: string
     description: string
 }

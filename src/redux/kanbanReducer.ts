@@ -1,5 +1,5 @@
 interface IIssue {
-    id: number
+    id: number | string
     name: string
     description: string
 }
@@ -121,23 +121,27 @@ export const initialState: IState = {
 
 interface IADD_ISSUE_ACTION {
     type: typeof ADD_ISSUE_ACTION
+    payload: string
 }
 
 interface IMOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION {
     type: typeof MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION
+    payload: number
 }
 
 interface IMOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION {
     type: typeof MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION
+    payload: number
 }
 
 interface IMOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION {
     type: typeof MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION
+    payload: number
 }
 
-type addIssueActionCreatorType = (id: number) => {
+type addIssueActionCreatorType = (newIssue: string) => {
     type: typeof ADD_ISSUE_ACTION
-    payload: number
+    payload: string
 }
 
 type moveIssueToReadyActionCreatorType = (id: number) => {
@@ -168,11 +172,24 @@ const MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION = "KANBANBOARD/SRC/REDUX/KANBANRED
 const MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION"
 const MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION"
 
-export const kanbanReducer:kanbanReducerType = (state: IState = initialState, action: reducerActionType) => {
+export const kanbanReducer: kanbanReducerType = (state: IState = initialState, action: reducerActionType): IState => {
     switch (action.type) {
 
         case ADD_ISSUE_ACTION: {
-            return state
+            const newIssue: IIssue = {
+                id: `${state.backlog.issues.length}${action.payload}`,
+                name: action.payload,
+                description: ""
+            }
+
+            let newBacklog: IIssueLog = {
+                title: "Backlog",
+                issues: [...state.backlog.issues, newIssue]
+            }
+
+            return {
+                ...state, backlog: newBacklog
+            }
         }
 
         case MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION: {
@@ -192,28 +209,28 @@ export const kanbanReducer:kanbanReducerType = (state: IState = initialState, ac
     }
 }
 
-const addIssueActionCreator: addIssueActionCreatorType = (id: number) => {
+export const addIssueActionCreator: addIssueActionCreatorType = (newIssue: string) => {
     return {
         type: ADD_ISSUE_ACTION,
-        payload: id
+        payload: newIssue
     }
 }
 
-const moveIssueToReadyActionCreator: moveIssueToReadyActionCreatorType = (id: number) => {
+export const moveIssueToReadyActionCreator: moveIssueToReadyActionCreatorType = (id: number) => {
     return {
         type: MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION,
         payload: id
     }
 }
 
-const moveIssueToInProcessActionCreator: moveIssueToInProcessActionCreatorType = (id: number) => {
+export const moveIssueToInProcessActionCreator: moveIssueToInProcessActionCreatorType = (id: number) => {
     return {
         type: MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION,
         payload: id
     }
 }
 
-const moveIssueToFinishActionCreator: moveIssueToFinishActionCreatorType = (id: number) => {
+export const moveIssueToFinishActionCreator: moveIssueToFinishActionCreatorType = (id: number) => {
     return {
         type: MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION,
         payload: id
