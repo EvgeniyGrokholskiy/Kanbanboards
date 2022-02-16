@@ -1,0 +1,27 @@
+.block {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--issuesBlockBackground);
+    border-radius: 10px;
+    padding: 12px;
+    margin: 25px 12px;
+    max-width: 282px;
+    width: 100%;
+}
+
+.title, .issues {
+    font-family: Roboto,sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+.issues {
+    background-color: white;
+    border-radius: 5px;
+    padding: 8px;
+    margin: 7px 0;
+}

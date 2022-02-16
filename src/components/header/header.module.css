@@ -1,0 +1,31 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--headerColor);
+    padding: 0 2%;
+    height: 55px;
+    max-width: 1235px;
+    width: 100%;
+}
+
+.header__text {
+    color: var(--headerTextColor);
+    font-family: Roboto, sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 33px;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+@media screen and (max-width: 400px) {
+    .header {
+        background-color: var(--mainBackground);
+        justify-content: end;
+    }
+    .header__text {
+        display: none;
+    }
+}

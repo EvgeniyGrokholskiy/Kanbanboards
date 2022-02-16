@@ -1,0 +1,21 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.arrow {
+    cursor: pointer;
+    transition: all ease-in 0.5s;
+}
+
+.arrow_up {
+    transform: rotate(180deg);
+}
+
+.menu {
+    position: absolute;
+    transform: translateX(-50%);
+    top: 50px;
+    left: 0;
+}

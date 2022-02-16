@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.input {
+    border: none;
+    border-radius: 5px;
+    font-family: Roboto,sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: left;
+    height: 38px;
+    padding: 8px;
+}
+
+.addButton, .submitButton {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    font-family: Roboto,sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: left;
+    height: 30px;
+    width: 103px;
+}
+
+.addButton:hover {
+    background-color: white;
+}
+
+.submitButton {
+    background-color: var(--mainBackground);
+    border: none;
+    color: white;
+    text-align: center;
+}
+
+.margin {
+    margin-top: 12px;
+}

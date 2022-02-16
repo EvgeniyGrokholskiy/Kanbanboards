@@ -1,0 +1,9 @@
+.wrapper {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: var(--mainBackground);
+    height: auto;
+    width: 100%;
+}
