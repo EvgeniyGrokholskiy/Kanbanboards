@@ -12,7 +12,7 @@ const AddNewIssue: React.FC = () => {
         setEditMode((prev:boolean) => !prev)
     }
 
-    const editModeOff = () => {
+    const submit = () => {
         setEditMode((prev:boolean) => !prev)
     }
 
@@ -24,7 +24,7 @@ const AddNewIssue: React.FC = () => {
                 }}/> : null
             }
             {
-                editMode ? <button onClick={editModeOff} className={`${styles.submitButton} ${editMode? styles.margin : null}`}>{"Submit"}</button>
+                editMode && (newIssue !== "") ? <button onClick={submit} className={`${styles.submitButton} ${editMode? styles.margin : null}`}>{"Submit"}</button>
                     : <button onClick={editModeOn} className={`${styles.addButton} ${editMode? styles.margin : null}`}><Plus/>{" Add card"}</button>
             }
 
