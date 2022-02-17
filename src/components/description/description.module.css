@@ -1,0 +1,13 @@
+.container {
+    background-color: var(--mainBackground);
+    min-height: 590px;
+    padding: 26px;
+    width: 100%;
+}
+
+.description {
+    background-color: var(--issuesBlockBackground);
+    min-height: 538px;
+    height: 100%;
+    width: 100%;
+}

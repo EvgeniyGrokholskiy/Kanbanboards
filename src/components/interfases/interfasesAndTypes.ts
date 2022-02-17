@@ -1,23 +1,26 @@
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 
-interface IIssue {
-    id: number
+//state interfaces
+export interface IIssue {
+    id: string
     name: string
     description: string
 }
 
-interface IIssueLog {
+export interface IIssueLog {
     title: string
     issues: Array<IIssue>
 }
 
 export interface IState {
-    backlog: IIssueLog
-    ready: IIssueLog
-    inProgress: IIssueLog
-    finished: IIssueLog
+    "backlog": IIssueLog
+    "ready": IIssueLog
+    "inProgress": IIssueLog
+    "finished": IIssueLog
 }
+//*************************
 
+//props interfaces
 export interface IHeaderProps {
     isOpen: boolean
     callback: () => void
@@ -43,13 +46,18 @@ export interface IFooterProps {
 }
 
 export interface ITask {
-    id: number | string
+    id:  string
     name: string
     description: string
 }
 
 export interface ITasksBlockProps {
-    tasks: Array<ITask>
+    tasks: Array<IIssue>
     title: string
+    prevTasks?: Array<IIssue>
     children?: ReactNode
 }
+//*****************************
+
+//function interface
+export type keyDownHandlerType = (event:React.KeyboardEvent<HTMLInputElement>, newIssue:string) => void

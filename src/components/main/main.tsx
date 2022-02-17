@@ -1,22 +1,23 @@
 import React from "react";
 import styles from "./main.module.css";
-import Tasksblock from "../tasksblock/tasksblock";
-import {getTasks} from "../../redux/selectors";
 import {useSelector} from "react-redux";
-import {IState} from "../../redux/kanbanReducer";
+import {getTasks} from "../../redux/selectors";
+import TasksBlock from "../tasksblock/tasksBlock";
+import { IState } from "../interfases/interfasesAndTypes";
 
 
 const Main: React.FC = () => {
 
-    const tasks:IState = useSelector(getTasks)
+    const tasks: IState = useSelector(getTasks)
+    const {backlog, ready, inProgress, finished} = tasks
 
     return (
         <main>
             <div className={styles.wrapper}>
-                <Tasksblock tasks={tasks.backlog.issues} title={tasks.backlog.title} />
-                <Tasksblock tasks={tasks.ready.issues} title={tasks.ready.title} />
-                <Tasksblock tasks={tasks.inProgress.issues} title={tasks.inProgress.title} />
-                <Tasksblock tasks={tasks.finished.issues} title={tasks.finished.title} />
+                <TasksBlock tasks={backlog.issues} title={backlog.title}/>
+                <TasksBlock tasks={ready.issues} title={ready.title} prevTasks={backlog.issues}/>
+                <TasksBlock tasks={inProgress.issues} title={inProgress.title} prevTasks={ready.issues}/>
+                <TasksBlock tasks={finished.issues} title={finished.title} prevTasks={inProgress.issues}/>
             </div>
         </main>
     );
