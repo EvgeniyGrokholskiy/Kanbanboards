@@ -49,7 +49,7 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
 
     const issuesToRender = tasks.map((task: ITask) => {
         const newTitle = title === "In progress" ? "inProgress" : title
-        const path = (`${newTitle}/${task.id}`).toLowerCase()
+        const path = (`/issue/${newTitle}/${task.id}`).toLowerCase()
         return <Link key={task.id} to={path} className={styles.issues}>{task.name}</Link>
     })
 
@@ -101,4 +101,4 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
     );
 }
 
-export default TasksBlock;
+export default TasksBlock

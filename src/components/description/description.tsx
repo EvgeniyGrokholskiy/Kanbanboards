@@ -77,7 +77,7 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
                 {
                     editMode ?
                         <>
-                            <h1 className={styles.header}>{description[0].name}</h1>
+                            <h1 className={styles.header}>{description[0]?.name ? description[0]?.name  : ""}</h1>
                             <textarea ref={editFieldRef} className={styles.editField} value={descriptionValue}
                                       onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
                                           setDescriptionValue(event.target.value)
@@ -87,7 +87,7 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
                         :
                         <>
                             <Link to={"/"} className={styles.close}>{<Cross/>}</Link>
-                            <h1 className={styles.header}>{description[0].name}</h1>
+                            <h1 className={styles.header}>{description[0]?.name ? description[0]?.name  : ""}</h1>
                             <p className={styles.text}>{descriptionValue ? descriptionValue : "This task has no description"}</p>
                             <button className={styles.editButton} onClick={editModeOn}>Edit</button>
                         </>

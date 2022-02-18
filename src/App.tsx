@@ -9,6 +9,7 @@ import Description from "./components/description/description";
 import {getTasks} from "./redux/selectors";
 import {IState} from "./components/interfases/interfasesAndTypes";
 import {saveStateActionCreator} from "./redux/kanbanReducer";
+import ErrorPage from "./components/404/errorpage";
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
                 dispatch(saveStateActionCreator(stateObj))
             }
         }
-    },[])
+    }, [])
 
     useEffect(() => {
         const toString = JSON.stringify(state)
@@ -52,7 +53,8 @@ function App() {
             <Header isOpen={menuState} callback={menuHandleClick}/>
             <Routes>
                 <Route path={"/"} element={<Main/>}/>
-                <Route path={"/*"} element={<Description state={state}/>}/>
+                <Route path={"/issue/*"} element={<Description state={state}/>}/>
+                <Route path={"/*"} element={<ErrorPage/>}/>
             </Routes>
             <Footer backLog={state["backlog"]} finished={state["finished"]} name={"Yevgeniy"} year={2022}/>
         </div>
