@@ -13,12 +13,14 @@ export interface IIssueLog {
 }
 
 export interface IState {
-    [key:string]: IIssueLog
+    [key: string]: IIssueLog
+
     backlog: IIssueLog
     ready: IIssueLog
     inprogress: IIssueLog
     finished: IIssueLog
 }
+
 //*************************
 
 //props interfaces
@@ -39,15 +41,15 @@ export interface IMainProps {
 }
 
 export interface IFooterProps {
-    backLog: IIssueLog
-    finished: IIssueLog
+    backLog: number
+    finished: number
     name: string
     year: number
     children?: ReactNode
 }
 
 export interface ITask {
-    id:  string
+    id: string
     name: string
     description: string
 }
@@ -64,12 +66,23 @@ export interface DescriptionProps {
 }
 
 export interface IParams {
-    [key:string]:string
+    [key: string]: string
     "*": string
 }
 
-export type ParamsObjType =  Readonly<Partial<IParams>>
+export interface IAddNewIssueProps {
+    editMode: boolean
+    editModeOn: () => void
+    submit: (newIssue: string) => void
+    keyDownHandler: keyDownHandlerType
+    selectValue: string
+    toNextBoard: (id: string) => void
+    prevTasks?: Array<IIssue>
+    select?: ReactNode
+}
+
+export type ParamsObjType = Readonly<Partial<IParams>>
 //*****************************
 
 //function interface
-export type keyDownHandlerType = (event:React.KeyboardEvent<HTMLInputElement>, newIssue:string) => void
+export type keyDownHandlerType = (event: React.KeyboardEvent<HTMLInputElement>, newIssue: string) => void

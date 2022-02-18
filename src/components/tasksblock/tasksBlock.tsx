@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import styles from "./tasksblock.module.css";
 import AddNewIssue from "./addnewissue/addnewissue";
+import React, {Dispatch, ReactNode, SetStateAction, useState} from "react";
 import {ITask, ITasksBlockProps, keyDownHandlerType} from "../interfases/interfasesAndTypes";
 import {
     addIssueActionCreator,
@@ -9,25 +10,24 @@ import {
     moveIssueToInProcessActionCreator,
     moveIssueToReadyActionCreator
 } from "../../redux/kanbanReducer";
-import {Link} from "react-router-dom";
 
 
 const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: ITasksBlockProps) => {
 
-    const [editMode, setEditMode] = useState(false)
-    const [selectValue, setSelectValue] = useState("")
-    const dispatch = useDispatch()
+    const [editMode, setEditMode]: [editMode: boolean, setEditMode: Dispatch<SetStateAction<boolean>>] = useState<boolean>(false)
+    const [selectValue, setSelectValue]: [selectValue: string, setSelectValue: Dispatch<SetStateAction<string>>] = useState<string>("")
+    const dispatch: Dispatch<any> = useDispatch()
 
-    const editModeOn = () => {
+    const editModeOn = (): void => {
         setEditMode((prev: boolean) => !prev)
     }
 
-    const submit = (newIssue: string) => {
+    const submit = (newIssue: string): void => {
         setEditMode((prev: boolean) => !prev)
         dispatch(addIssueActionCreator(newIssue))
     }
 
-    const toNextBoard = (id: string) => {
+    const toNextBoard = (id: string): void => {
 
         if (title === "Ready") {
             dispatch(moveIssueToReadyActionCreator(id))
@@ -47,25 +47,30 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
         }
     }
 
-    const issuesToRender = tasks.map((task: ITask) => {
-        const newTitle = title === "In progress" ? "inProgress" : title
-        const path = (`/issue/${newTitle}/${task.id}`).toLowerCase()
-        return <Link key={task.id} to={path} className={styles.issues}>{task.name}</Link>
-    })
+    const issuesToRender = () => {
+        return tasks.map((task: ITask) => {
+            const newTitle = title === "In progress" ? "inprogress" : title
+            const path = (`/issue/${newTitle}/${task?.id}`).toLowerCase()
+            return <Link key={task?.id} to={path} className={styles.issues}>{task?.name}</Link>
+        })
+    }
 
-    const selectRender = (tasks: Array<ITask>) => {
+    const selectRender = (tasks: Array<ITask>): ReactNode => {
 
         const option = tasks.map((task: ITask) => {
             return <option key={task.id} value={task.id}>{task.name}</option>
         })
 
-        return <select value={selectValue}
-                       onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => setSelectValue(event.target.value)}>
-            <option>Select issue...</option>
-            {option}</select>
+        return (
+            <select className={styles.select} value={selectValue}
+                    onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => setSelectValue(event.target.value)}>
+                <option>Select issue...</option>
+                {option}
+            </select>
+        )
     }
 
-    const conditionalRender = (title: string) => {
+    const conditionalRender = (title: string): ReactNode => {
 
         switch (title) {
             case "Backlog": {
@@ -97,7 +102,9 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
     return (
         <div className={styles.block}>
             <h2 className={styles.title}>{title}</h2>
-            {issuesToRender}
+            {
+                issuesToRender()
+            }
             {
                 conditionalRender(title)
             }

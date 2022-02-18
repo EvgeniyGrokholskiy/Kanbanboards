@@ -3,13 +3,13 @@ import styles from "./main.module.css";
 import {useSelector} from "react-redux";
 import {getTasks} from "../../redux/selectors";
 import TasksBlock from "../tasksblock/tasksBlock";
-import { IState } from "../interfases/interfasesAndTypes";
+import {IState} from "../interfases/interfasesAndTypes";
 
 
 const Main: React.FC = () => {
 
     const tasks: IState = useSelector(getTasks)
-    const {backlog, ready, inprogress:inProgress, finished} = tasks
+    const {backlog, ready, inprogress: inProgress, finished} = tasks
 
     return (
         <main>

@@ -25,6 +25,7 @@
         background-color: var(--mainBackground);
         justify-content: end;
     }
+
     .header__text {
         display: none;
     }

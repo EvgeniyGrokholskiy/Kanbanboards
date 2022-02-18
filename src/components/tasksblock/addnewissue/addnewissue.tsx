@@ -1,18 +1,8 @@
-import React, {useState} from 'react';
 import styles from "./addnewissue.module.css";
+import {IAddNewIssueProps} from "../../interfases/interfasesAndTypes";
 import {ReactComponent as Plus} from "../../../assets/images/plus.svg";
-import {IIssue, keyDownHandlerType} from "../../interfases/interfasesAndTypes";
+import React, {Dispatch, ReactNode, SetStateAction, useState} from 'react';
 
-interface IAddNewIssueProps {
-    editMode: boolean
-    editModeOn: () => void
-    submit: (newIssue: string) => void
-    keyDownHandler: keyDownHandlerType
-    selectValue: string
-    toNextBoard: (id: string) => void
-    prevTasks?: Array<IIssue>
-    select?: JSX.Element
-}
 
 const AddNewIssue: React.FC<IAddNewIssueProps> = ({
                                                       editMode,
@@ -25,9 +15,9 @@ const AddNewIssue: React.FC<IAddNewIssueProps> = ({
                                                       prevTasks
                                                   }: IAddNewIssueProps) => {
 
-    const [newIssue, setNewIssue] = useState('')
+    const [newIssue, setNewIssue]: [newIssue: string, setNewIssue: Dispatch<SetStateAction<string>>] = useState<string>('')
 
-    const handleSubmit = () => {
+    const handleSubmit = (): void => {
         if (selectValue) {
             toNextBoard(selectValue)
         } else {
@@ -35,7 +25,7 @@ const AddNewIssue: React.FC<IAddNewIssueProps> = ({
             setNewIssue('')
         }
     }
-    const conditionalRender = () => {
+    const conditionalRender = (): ReactNode => {
         return select ? select
             : <input className={styles.input} value={newIssue}
                      onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -46,7 +36,7 @@ const AddNewIssue: React.FC<IAddNewIssueProps> = ({
                      }}/>
     }
 
-    const isDisabled = () => {
+    const isDisabled = (): boolean => {
         return prevTasks?.length === 0;
     }
 

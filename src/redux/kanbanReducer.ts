@@ -21,7 +21,7 @@ interface IMOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION {
     payload: string
 }
 
-interface ISaveDescriptionToIssueActionCreatorType {
+interface ISAVE_DESCRIPTION_TO_ISSUE_ACTION {
     type: typeof SAVE_DESCRIPTION_TO_ISSUE_ACTION,
     payload: {
         id: string
@@ -40,30 +40,30 @@ type reducerActionType =
     | IMOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION
     | IMOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION
     | IMOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION
-    | ISaveDescriptionToIssueActionCreatorType
+    | ISAVE_DESCRIPTION_TO_ISSUE_ACTION
     | ISAVE_STATE_ACTION
 
-type addIssueActionCreatorType = (newIssue: string) => {
+type AddIssueActionCreatorType = (newIssue: string) => {
     type: typeof ADD_ISSUE_ACTION
     payload: string
 }
 
-type moveIssueToReadyActionCreatorType = (id: string) => {
+type MoveIssueToReadyActionCreatorType = (id: string) => {
     type: typeof MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION,
     payload: string
 }
 
-type moveIssueToInProcessActionCreatorType = (id: string) => {
+type MoveIssueToInProcessActionCreatorType = (id: string) => {
     type: typeof MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION
     payload: string
 }
 
-type moveIssueToFinishActionCreatorType = (id: string) => {
+type MoveIssueToFinishActionCreatorType = (id: string) => {
     type: typeof MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION
     payload: string
 }
 
-type saveDescriptionToIssueActionCreatorType = (id: string, issueLogName: string, descriptionText: string) => {
+type SaveDescriptionToIssueActionCreatorType = (id: string, issueLogName: string, descriptionText: string) => {
     type: typeof SAVE_DESCRIPTION_TO_ISSUE_ACTION,
     payload: {
         id: string
@@ -72,12 +72,12 @@ type saveDescriptionToIssueActionCreatorType = (id: string, issueLogName: string
     }
 }
 
-type saveStateActionCreatorType = (state: IState) => {
+type SaveStateActionCreatorType = (state: IState) => {
     type: typeof SAVE_STATE_ACTION
     payload: IState
 }
 
-type kanbanReducerType = (state: IState, action: reducerActionType) => IState
+type KanbanReducerType = (state: IState, action: reducerActionType) => IState
 
 export const initialState: IState = {
     "backlog": {
@@ -183,13 +183,13 @@ export const initialState: IState = {
 }
 
 const ADD_ISSUE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/ADD_ISSUE_ACTION"
+const SAVE_STATE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/SAVE_STATE_ACTION"
+const SAVE_DESCRIPTION_TO_ISSUE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/SAVE_DESCRIPTION_TO_ISSUE_ACTION"
 const MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION"
 const MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION"
 const MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION"
-const SAVE_DESCRIPTION_TO_ISSUE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/SAVE_DESCRIPTION_TO_ISSUE_ACTION"
-const SAVE_STATE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/SAVE_STATE_ACTION"
 
-export const kanbanReducer: kanbanReducerType = (state: IState = initialState, action: reducerActionType): IState => {
+export const kanbanReducer: KanbanReducerType = (state: IState = initialState, action: reducerActionType): IState => {
     switch (action.type) {
 
         case ADD_ISSUE_ACTION: {
@@ -212,6 +212,10 @@ export const kanbanReducer: kanbanReducerType = (state: IState = initialState, a
 
         case MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION: {
 
+            if (action.payload === "Select issue..."){
+                return state
+            }
+
             const selectedIssue: Array<ITask> = state.backlog.issues.filter((task: ITask) => task.id === action.payload)
             const prevTaskWithOutSelectedIssue: Array<IIssue> = state.backlog.issues.filter((task: ITask) => task.id !== action.payload)
 
@@ -232,6 +236,10 @@ export const kanbanReducer: kanbanReducerType = (state: IState = initialState, a
 
         case MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION: {
 
+            if (action.payload === "Select issue..."){
+                return state
+            }
+
             const selectedIssue: Array<ITask> = state.ready.issues.filter((task: ITask) => task.id === action.payload)
             const prevTaskWithOutSelectedIssue: Array<IIssue> = state.ready.issues.filter((task: ITask) => task.id !== action.payload)
 
@@ -251,6 +259,10 @@ export const kanbanReducer: kanbanReducerType = (state: IState = initialState, a
         }
 
         case MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION: {
+
+            if (action.payload === "Select issue..."){
+                return state
+            }
 
             const selectedIssue: Array<ITask> = state.inprogress.issues.filter((task: ITask) => task.id === action.payload)
             const prevTaskWithOutSelectedIssue: Array<IIssue> = state.inprogress.issues.filter((task: ITask) => task.id !== action.payload)
@@ -302,35 +314,35 @@ export const kanbanReducer: kanbanReducerType = (state: IState = initialState, a
     }
 }
 
-export const addIssueActionCreator: addIssueActionCreatorType = (newIssue: string) => {
+export const addIssueActionCreator: AddIssueActionCreatorType = (newIssue: string) => {
     return {
         type: ADD_ISSUE_ACTION,
         payload: newIssue
     }
 }
 
-export const moveIssueToReadyActionCreator: moveIssueToReadyActionCreatorType = (id: string) => {
+export const moveIssueToReadyActionCreator: MoveIssueToReadyActionCreatorType = (id: string) => {
     return {
         type: MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION,
         payload: id
     }
 }
 
-export const moveIssueToInProcessActionCreator: moveIssueToInProcessActionCreatorType = (id: string) => {
+export const moveIssueToInProcessActionCreator: MoveIssueToInProcessActionCreatorType = (id: string) => {
     return {
         type: MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION,
         payload: id
     }
 }
 
-export const moveIssueToFinishActionCreator: moveIssueToFinishActionCreatorType = (id: string) => {
+export const moveIssueToFinishActionCreator: MoveIssueToFinishActionCreatorType = (id: string) => {
     return {
         type: MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION,
         payload: id
     }
 }
 
-export const saveDescriptionToIssueActionCreator: saveDescriptionToIssueActionCreatorType = (id: string, issueLogName: string, descriptionText: string) => {
+export const saveDescriptionToIssueActionCreator: SaveDescriptionToIssueActionCreatorType = (id: string, issueLogName: string, descriptionText: string) => {
     return {
         type: SAVE_DESCRIPTION_TO_ISSUE_ACTION,
         payload: {
@@ -341,7 +353,7 @@ export const saveDescriptionToIssueActionCreator: saveDescriptionToIssueActionCr
     }
 }
 
-export const saveStateActionCreator: saveStateActionCreatorType = (state:IState) => {
+export const saveStateActionCreator: SaveStateActionCreatorType = (state: IState) => {
     return {
         type: SAVE_STATE_ACTION,
         payload: state

@@ -10,11 +10,12 @@
 
 .button {
     background-color: red;
-    border-radius: 50%;
+    border-radius: 15px;
     color: white;
     font-size: 25px;
     text-align: center;
-    line-height: 62px;
+    text-decoration: none;
+    line-height: 64px;
     margin-top: 20px;
     height: 70px;
     width: 200px;

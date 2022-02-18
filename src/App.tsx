@@ -56,7 +56,7 @@ function App() {
                 <Route path={"/issue/*"} element={<Description state={state}/>}/>
                 <Route path={"/*"} element={<ErrorPage/>}/>
             </Routes>
-            <Footer backLog={state["backlog"]} finished={state["finished"]} name={"Yevgeniy"} year={2022}/>
+            <Footer backLog={state["backlog"].issues.length} finished={state["finished"].issues.length} name={"Yevgeniy"} year={2022}/>
         </div>
     );
 }

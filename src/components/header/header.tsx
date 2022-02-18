@@ -4,7 +4,7 @@ import styles from "./header.module.css"
 import {IHeaderProps} from "../interfases/interfasesAndTypes";
 
 
-const Header: React.FC<IHeaderProps> = ({isOpen , callback}:IHeaderProps) => {
+const Header: React.FC<IHeaderProps> = ({isOpen, callback}: IHeaderProps) => {
 
     return (
         <header>

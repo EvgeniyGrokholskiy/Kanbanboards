@@ -6,7 +6,7 @@ import {ReactComponent as DownArrow} from "../../../assets/images/arrow-down.svg
 import {ReactComponent as AvatarIMG} from "../../../assets/images/user-avatar.svg";
 
 
-const Avatar:React.FC<IAvatarProps> = ({isOpen, callback}:IAvatarProps) => {
+const Avatar: React.FC<IAvatarProps> = ({isOpen, callback}: IAvatarProps) => {
 
     return (
         <div className={styles.wrapper}>
@@ -15,7 +15,7 @@ const Avatar:React.FC<IAvatarProps> = ({isOpen, callback}:IAvatarProps) => {
                 <DownArrow/>
             </div>
             {
-                isOpen? <div className={styles.menu}><Menu/></div> : null
+                isOpen ? <div className={styles.menu}><Menu/></div> : null
             }
         </div>
     );

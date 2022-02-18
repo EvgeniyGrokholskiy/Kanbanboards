@@ -24,3 +24,7 @@
 .item {
     cursor: pointer;
 }
+
+.item:hover {
+    text-decoration: underline;
+}
