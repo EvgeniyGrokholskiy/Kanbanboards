@@ -13,10 +13,11 @@ export interface IIssueLog {
 }
 
 export interface IState {
-    "backlog": IIssueLog
-    "ready": IIssueLog
-    "inProgress": IIssueLog
-    "finished": IIssueLog
+    [key:string]: IIssueLog
+    backlog: IIssueLog
+    ready: IIssueLog
+    inprogress: IIssueLog
+    finished: IIssueLog
 }
 //*************************
 
@@ -38,8 +39,8 @@ export interface IMainProps {
 }
 
 export interface IFooterProps {
-    activeTasks: number
-    finishedTasks: number
+    backLog: IIssueLog
+    finished: IIssueLog
     name: string
     year: number
     children?: ReactNode
@@ -57,6 +58,17 @@ export interface ITasksBlockProps {
     prevTasks?: Array<IIssue>
     children?: ReactNode
 }
+
+export interface DescriptionProps {
+    state: IState
+}
+
+export interface IParams {
+    [key:string]:string
+    "*": string
+}
+
+export type ParamsObjType =  Readonly<Partial<IParams>>
 //*****************************
 
 //function interface

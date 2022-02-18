@@ -50,13 +50,13 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
     const issuesToRender = tasks.map((task: ITask) => {
         const newTitle = title === "In progress" ? "inProgress" : title
         const path = (`${newTitle}/${task.id}`).toLowerCase()
-        return <Link to={path} className={styles.issues}>{task.name}</Link>
+        return <Link key={task.id} to={path} className={styles.issues}>{task.name}</Link>
     })
 
     const selectRender = (tasks: Array<ITask>) => {
 
         const option = tasks.map((task: ITask) => {
-            return <option value={task.id}>{task.name}</option>
+            return <option key={task.id} value={task.id}>{task.name}</option>
         })
 
         return <select value={selectValue}

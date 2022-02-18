@@ -9,7 +9,7 @@ import { IState } from "../interfases/interfasesAndTypes";
 const Main: React.FC = () => {
 
     const tasks: IState = useSelector(getTasks)
-    const {backlog, ready, inProgress, finished} = tasks
+    const {backlog, ready, inprogress:inProgress, finished} = tasks
 
     return (
         <main>

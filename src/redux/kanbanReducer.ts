@@ -21,11 +21,27 @@ interface IMOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION {
     payload: string
 }
 
+interface ISaveDescriptionToIssueActionCreatorType {
+    type: typeof SAVE_DESCRIPTION_TO_ISSUE_ACTION,
+    payload: {
+        id: string
+        issueLogName: string
+        descriptionText: string
+    }
+}
+
+interface ISAVE_STATE_ACTION {
+    type: typeof SAVE_STATE_ACTION
+    payload: IState
+}
+
 type reducerActionType =
     IADD_ISSUE_ACTION
     | IMOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION
     | IMOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION
     | IMOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION
+    | ISaveDescriptionToIssueActionCreatorType
+    | ISAVE_STATE_ACTION
 
 type addIssueActionCreatorType = (newIssue: string) => {
     type: typeof ADD_ISSUE_ACTION
@@ -47,13 +63,27 @@ type moveIssueToFinishActionCreatorType = (id: string) => {
     payload: string
 }
 
+type saveDescriptionToIssueActionCreatorType = (id: string, issueLogName: string, descriptionText: string) => {
+    type: typeof SAVE_DESCRIPTION_TO_ISSUE_ACTION,
+    payload: {
+        id: string
+        issueLogName: string
+        descriptionText: string
+    }
+}
+
+type saveStateActionCreatorType = (state: IState) => {
+    type: typeof SAVE_STATE_ACTION
+    payload: IState
+}
+
 type kanbanReducerType = (state: IState, action: reducerActionType) => IState
 
 export const initialState: IState = {
     "backlog": {
         title: 'Backlog',
         issues: [
-            {
+            /*{
                 id: "1",
                 name: 'Sprint bugfix',
                 description: 'Fix all the bugs'
@@ -67,13 +97,13 @@ export const initialState: IState = {
                 id: "3",
                 name: 'Sprint bugfix',
                 description: 'Sprint bugfix'
-            }
+            }*/
         ]
     },
     "ready": {
         title: 'Ready',
         issues: [
-            {
+            /*{
                 id: "1",
                 name: 'Shop page – performance issues',
                 description: 'Fix all the bugs'
@@ -117,13 +147,13 @@ export const initialState: IState = {
                 id: "9",
                 name: 'Shop page – performance issues',
                 description: 'Shop page – performance issues'
-            }
+            }*/
         ]
     },
-    "inProgress": {
+    "inprogress": {
         title: 'In progress',
         issues: [
-            {
+            /*{
                 id: "1",
                 name: 'User page – performance issues',
                 description: 'Fix all the bugs'
@@ -132,13 +162,13 @@ export const initialState: IState = {
                 id: "2",
                 name: 'Auth bugfix',
                 description: 'Fix all the bugs'
-            }
+            }*/
         ]
     },
     "finished": {
         title: 'Finished',
         issues: [
-            {
+            /*{
                 id: "1",
                 name: 'Main page – performance issues',
                 description: 'Fix all the bugs'
@@ -147,7 +177,7 @@ export const initialState: IState = {
                 id: "2",
                 name: 'Main page bugfix',
                 description: 'Fix all the bugs'
-            }
+            }*/
         ]
     }
 }
@@ -156,13 +186,16 @@ const ADD_ISSUE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/ADD_ISSUE_ACTION"
 const MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_BACKLOG_TO_READY_ACTION"
 const MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_READY_TO_IN_PROGRESS_ACTION"
 const MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION"
+const SAVE_DESCRIPTION_TO_ISSUE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/SAVE_DESCRIPTION_TO_ISSUE_ACTION"
+const SAVE_STATE_ACTION = "KANBANBOARD/SRC/REDUX/KANBANREDUCER/SAVE_STATE_ACTION"
 
 export const kanbanReducer: kanbanReducerType = (state: IState = initialState, action: reducerActionType): IState => {
     switch (action.type) {
 
         case ADD_ISSUE_ACTION: {
+            const postfix = Math.round((Math.random() * 100))
             const newIssue: IIssue = {
-                id: `${state.backlog.issues.length}${action.payload}`,
+                id: `${state.backlog.issues.length}${postfix}`,
                 name: action.payload,
                 description: ""
             }
@@ -209,18 +242,18 @@ export const kanbanReducer: kanbanReducerType = (state: IState = initialState, a
 
             const newInProgress: IIssueLog = {
                 title: "In progress",
-                issues: [...state.inProgress.issues, selectedIssue[0]]
+                issues: [...state.inprogress.issues, selectedIssue[0]]
             }
 
             return {
-                ...state, ready: newReady, inProgress: newInProgress
+                ...state, ready: newReady, inprogress: newInProgress
             }
         }
 
         case MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION: {
 
-            const selectedIssue: Array<ITask> = state.inProgress.issues.filter((task: ITask) => task.id === action.payload)
-            const prevTaskWithOutSelectedIssue: Array<IIssue> = state.inProgress.issues.filter((task: ITask) => task.id !== action.payload)
+            const selectedIssue: Array<ITask> = state.inprogress.issues.filter((task: ITask) => task.id === action.payload)
+            const prevTaskWithOutSelectedIssue: Array<IIssue> = state.inprogress.issues.filter((task: ITask) => task.id !== action.payload)
 
             const newInProgress: IIssueLog = {
                 title: "In progress",
@@ -233,8 +266,35 @@ export const kanbanReducer: kanbanReducerType = (state: IState = initialState, a
             }
 
             return {
-                ...state, inProgress: newInProgress, finished: newFinished
+                ...state, inprogress: newInProgress, finished: newFinished
             }
+        }
+
+        case SAVE_DESCRIPTION_TO_ISSUE_ACTION: {
+
+            const {id, issueLogName, descriptionText} = action.payload
+
+            const issueArrayWithNewDescription = state[issueLogName].issues.map((task: IIssue) => {
+                if (task.id === id) {
+                    task.description = descriptionText
+                    return task
+                }
+                return task
+            })
+
+            const newIssueLog: IIssueLog = {
+                title: state[action.payload.issueLogName].title,
+                issues: issueArrayWithNewDescription
+            }
+
+            return {
+                ...state, [issueLogName]: newIssueLog
+            }
+
+        }
+
+        case SAVE_STATE_ACTION: {
+            return action.payload
         }
 
         default:
@@ -267,5 +327,23 @@ export const moveIssueToFinishActionCreator: moveIssueToFinishActionCreatorType 
     return {
         type: MOVE_ISSUE_FROM_IN_PROGRESS_TO_FINISH_ACTION,
         payload: id
+    }
+}
+
+export const saveDescriptionToIssueActionCreator: saveDescriptionToIssueActionCreatorType = (id: string, issueLogName: string, descriptionText: string) => {
+    return {
+        type: SAVE_DESCRIPTION_TO_ISSUE_ACTION,
+        payload: {
+            id,
+            issueLogName,
+            descriptionText
+        }
+    }
+}
+
+export const saveStateActionCreator: saveStateActionCreatorType = (state:IState) => {
+    return {
+        type: SAVE_STATE_ACTION,
+        payload: state
     }
 }

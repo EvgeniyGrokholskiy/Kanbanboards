@@ -6,8 +6,49 @@
 }
 
 .description {
-    background-color: var(--issuesBlockBackground);
-    min-height: 538px;
+    position: relative;
+    background-color: white;
+    padding: 30px;
+    min-height: 573px;
     height: 100%;
     width: 100%;
+}
+
+.header {
+    font-family: Roboto, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0;
+    text-align: left;
+    margin-bottom: 35px;
+}
+
+.text, .editField {
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0;
+    text-align: left;
+}
+.editField {
+    border: none;
+    resize: none;
+    height: 400px;
+    width: 100%;
+}
+
+.editButton {
+    position: absolute;
+    bottom: 20px;
+    left: 28px;
+}
+
+.close {
+    top: 25px;
+    right: 25px;
+    position: absolute;
 }
