@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styles from "./addnewissue.module.css";
 import {ReactComponent as Plus} from "../../../assets/images/plus.svg";
-import {keyDownHandlerType} from "../../interfases/interfasesAndTypes";
+import {IIssue, keyDownHandlerType} from "../../interfases/interfasesAndTypes";
 
 interface IAddNewIssueProps {
     editMode: boolean
@@ -10,6 +10,7 @@ interface IAddNewIssueProps {
     keyDownHandler: keyDownHandlerType
     selectValue: string
     toNextBoard: (id: string) => void
+    prevTasks?: Array<IIssue>
     select?: JSX.Element
 }
 
@@ -20,7 +21,8 @@ const AddNewIssue: React.FC<IAddNewIssueProps> = ({
                                                       keyDownHandler,
                                                       select,
                                                       selectValue,
-                                                      toNextBoard
+                                                      toNextBoard,
+                                                      prevTasks
                                                   }: IAddNewIssueProps) => {
 
     const [newIssue, setNewIssue] = useState('')
@@ -44,6 +46,10 @@ const AddNewIssue: React.FC<IAddNewIssueProps> = ({
                      }}/>
     }
 
+    const isDisabled = () => {
+        return prevTasks?.length === 0;
+    }
+
     return (
         <div className={styles.container}>
             {
@@ -53,7 +59,8 @@ const AddNewIssue: React.FC<IAddNewIssueProps> = ({
                 editMode && (newIssue !== "" || selectValue !== "") ?
                     <button onClick={handleSubmit}
                             className={`${styles.submitButton} ${editMode ? styles.margin : null}`}>{"Submit"}</button>
-                    : <button onClick={editModeOn} className={`${styles.addButton} ${editMode ? styles.margin : null}`}>
+                    : <button onClick={editModeOn} className={`${styles.addButton} ${editMode ? styles.margin : null}`}
+                              disabled={isDisabled()}>
                         <Plus/>{" Add card"}</button>
             }
         </div>

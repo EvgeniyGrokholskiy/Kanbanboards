@@ -69,21 +69,25 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
 
         switch (title) {
             case "Backlog": {
-                return <AddNewIssue editMode={editMode} editModeOn={editModeOn} keyDownHandler={keyDownHandler}
+                return <AddNewIssue editMode={editMode} editModeOn={editModeOn}
+                                    keyDownHandler={keyDownHandler}
                                     submit={submit} selectValue={selectValue} toNextBoard={toNextBoard}/>
             }
             case "Ready": {
-                return <AddNewIssue editMode={editMode} editModeOn={editModeOn} keyDownHandler={keyDownHandler}
+                return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
+                                    keyDownHandler={keyDownHandler}
                                     submit={submit} select={selectRender(prevTasks)} selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
             case "In progress": {
-                return <AddNewIssue editMode={editMode} editModeOn={editModeOn} keyDownHandler={keyDownHandler}
+                return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
+                                    keyDownHandler={keyDownHandler}
                                     submit={submit} select={selectRender(prevTasks)} selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
             case "Finished": {
-                return <AddNewIssue editMode={editMode} editModeOn={editModeOn} keyDownHandler={keyDownHandler}
+                return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
+                                    keyDownHandler={keyDownHandler}
                                     submit={submit} select={selectRender(prevTasks)} selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }

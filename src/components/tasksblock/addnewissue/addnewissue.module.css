@@ -23,6 +23,7 @@
     background: none;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
     font-family: Roboto,sans-serif;
     font-size: 18px;
     font-style: normal;
@@ -34,7 +35,7 @@
     width: 103px;
 }
 
-.addButton:hover {
+.addButton:hover:enabled {
     background-color: white;
 }
 
@@ -47,4 +48,8 @@
 
 .margin {
     margin-top: 12px;
+}
+
+.addButton:disabled {
+    cursor: default;
 }
