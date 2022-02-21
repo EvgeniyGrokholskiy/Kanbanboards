@@ -1,3 +1,4 @@
+import {AnyAction} from "redux";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import styles from "./tasksblock.module.css";
@@ -16,7 +17,7 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
 
     const [editMode, setEditMode]: [editMode: boolean, setEditMode: Dispatch<SetStateAction<boolean>>] = useState<boolean>(false)
     const [selectValue, setSelectValue]: [selectValue: string, setSelectValue: Dispatch<SetStateAction<string>>] = useState<string>("")
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch: Dispatch<AnyAction> = useDispatch()
 
     const editModeOn = (): void => {
         setEditMode((prev: boolean) => !prev)
@@ -38,7 +39,7 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
         }
 
         setSelectValue("")
-        setEditMode((prev: boolean) => !prev)
+        setEditMode((prev: boolean): boolean => !prev)
     }
 
     const keyDownHandler: keyDownHandlerType = (event: React.KeyboardEvent<HTMLInputElement>, newIssue: string) => {
@@ -47,7 +48,7 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
         }
     }
 
-    const issuesToRender = () => {
+    const issuesToRender = (): ReactNode => {
         return tasks.map((task: ITask) => {
             const newTitle = title === "In progress" ? "inprogress" : title
             const path = (`/issue/${newTitle}/${task?.id}`).toLowerCase()
@@ -55,7 +56,7 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
         })
     }
 
-    const selectRender = (tasks: Array<ITask>): ReactNode => {
+    const selectIssueRender = (tasks: Array<ITask>): ReactNode => {
 
         const option = tasks.map((task: ITask) => {
             return <option key={task.id} value={task.id}>{task.name}</option>
@@ -81,19 +82,19 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
             case "Ready": {
                 return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
                                     keyDownHandler={keyDownHandler}
-                                    submit={submit} select={selectRender(prevTasks)} selectValue={selectValue}
+                                    submit={submit} select={selectIssueRender(prevTasks)} selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
             case "In progress": {
                 return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
                                     keyDownHandler={keyDownHandler}
-                                    submit={submit} select={selectRender(prevTasks)} selectValue={selectValue}
+                                    submit={submit} select={selectIssueRender(prevTasks)} selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
             case "Finished": {
                 return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
                                     keyDownHandler={keyDownHandler}
-                                    submit={submit} select={selectRender(prevTasks)} selectValue={selectValue}
+                                    submit={submit} select={selectIssueRender(prevTasks)} selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
         }
