@@ -7,13 +7,15 @@ import React, {Dispatch, ReactNode, SetStateAction, useState} from "react";
 import {ITask, ITasksBlockProps, keyDownHandlerType} from "../interfases/interfasesAndTypes";
 import {
     addIssueActionCreator,
-    moveIssueToFinishActionCreator,
-    moveIssueToInProcessActionCreator,
-    moveIssueToReadyActionCreator
+    universalIssueMoverActionCreator
 } from "../../redux/kanbanReducer";
 
 
-const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: ITasksBlockProps) => {
+const TasksBlock: React.FC<ITasksBlockProps> = ({
+                                                    title,
+                                                    tasks,
+                                                    prevTasks = {title: "backlog", issues: []}
+                                                }: ITasksBlockProps) => {
 
     const [editMode, setEditMode]: [editMode: boolean, setEditMode: Dispatch<SetStateAction<boolean>>] = useState<boolean>(false)
     const [selectValue, setSelectValue]: [selectValue: string, setSelectValue: Dispatch<SetStateAction<string>>] = useState<string>("")
@@ -30,12 +32,12 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
 
     const toNextBoard = (id: string): void => {
 
-        if (title === "Ready") {
-            dispatch(moveIssueToReadyActionCreator(id))
-        } else if (title === "In progress") {
-            dispatch(moveIssueToInProcessActionCreator(id))
-        } else if (title === "Finished") {
-            dispatch(moveIssueToFinishActionCreator(id))
+        if (title === "In progress") {
+            dispatch(universalIssueMoverActionCreator(id, prevTasks.title, "inprogress"))
+        } else if (prevTasks?.title === "In progress") {
+            dispatch(universalIssueMoverActionCreator(id, "inprogress", title))
+        } else {
+            dispatch(universalIssueMoverActionCreator(id, prevTasks.title, title))
         }
 
         setSelectValue("")
@@ -80,21 +82,24 @@ const TasksBlock: React.FC<ITasksBlockProps> = ({title, tasks, prevTasks = []}: 
                                     submit={submit} selectValue={selectValue} toNextBoard={toNextBoard}/>
             }
             case "Ready": {
-                return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
+                return <AddNewIssue prevTasks={prevTasks?.issues} editMode={editMode} editModeOn={editModeOn}
                                     keyDownHandler={keyDownHandler}
-                                    submit={submit} select={selectIssueRender(prevTasks)} selectValue={selectValue}
+                                    submit={submit} select={selectIssueRender(prevTasks?.issues)}
+                                    selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
             case "In progress": {
-                return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
+                return <AddNewIssue prevTasks={prevTasks?.issues} editMode={editMode} editModeOn={editModeOn}
                                     keyDownHandler={keyDownHandler}
-                                    submit={submit} select={selectIssueRender(prevTasks)} selectValue={selectValue}
+                                    submit={submit} select={selectIssueRender(prevTasks?.issues)}
+                                    selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
             case "Finished": {
-                return <AddNewIssue prevTasks={prevTasks} editMode={editMode} editModeOn={editModeOn}
+                return <AddNewIssue prevTasks={prevTasks?.issues} editMode={editMode} editModeOn={editModeOn}
                                     keyDownHandler={keyDownHandler}
-                                    submit={submit} select={selectIssueRender(prevTasks)} selectValue={selectValue}
+                                    submit={submit} select={selectIssueRender(prevTasks?.issues)}
+                                    selectValue={selectValue}
                                     toNextBoard={toNextBoard}/>
             }
         }

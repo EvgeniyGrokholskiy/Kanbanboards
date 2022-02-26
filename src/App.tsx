@@ -1,27 +1,21 @@
 import "./App.css";
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect} from "react";
 import Main from "./components/main/main";
 import {Route, Routes} from "react-router";
+import {getTasks} from "./redux/selectors";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
-import Description from "./components/description/description";
-import {getTasks} from "./redux/selectors";
-import {IState} from "./components/interfases/interfasesAndTypes";
-import {saveStateActionCreator} from "./redux/kanbanReducer";
 import ErrorPage from "./components/404/errorpage";
+import {useDispatch, useSelector} from "react-redux";
+import {saveStateActionCreator} from "./redux/kanbanReducer";
+import Description from "./components/description/description";
+import {IState} from "./components/interfases/interfasesAndTypes";
 
 
 function App() {
 
-    const [menuState, setMenuState] = useState(false)
-
     const state: IState = useSelector(getTasks)
     const dispatch = useDispatch()
-
-    const menuHandleClick: () => void = () => {
-        setMenuState((prev: boolean) => !prev)
-    }
 
     const getLocalStorageValue = () => {
         const string = localStorage.getItem("state")
@@ -44,13 +38,13 @@ function App() {
     }, [])
 
     useEffect(() => {
-        const toString = JSON.stringify(state)
-        localStorage.setItem("state", toString)
+        const stateStringify = JSON.stringify(state)
+        localStorage.setItem("state", stateStringify)
     }, [state])
 
     return (
         <div className={"wrapper"}>
-            <Header isOpen={menuState} callback={menuHandleClick}/>
+            <Header/>
             <Routes>
                 <Route path={"/"} element={<Main/>}/>
                 <Route path={"/issue/*"} element={<Description state={state}/>}/>

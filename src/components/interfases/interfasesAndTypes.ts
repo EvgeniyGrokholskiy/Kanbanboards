@@ -23,21 +23,10 @@ export interface IState {
 
 //*************************
 
-//props interfaces
-export interface IHeaderProps {
-    isOpen: boolean
-    callback: () => void
-    children?: ReactNode
-}
-
 export interface IAvatarProps {
     isOpen: boolean
     callback: () => void
     children?: ReactNode
-}
-
-export interface IMainProps {
-    tasks: IState
 }
 
 export interface IFooterProps {
@@ -57,7 +46,7 @@ export interface ITask {
 export interface ITasksBlockProps {
     tasks: Array<IIssue>
     title: string
-    prevTasks?: Array<IIssue>
+    prevTasks?: IIssueLog
     children?: ReactNode
 }
 

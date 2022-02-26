@@ -32,16 +32,18 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
     const getDescription = (): Array<ITask> => {
         const id = getId()
         const tasksLogName = getTasksLogName()
-        return state[tasksLogName]?.issues.filter((task: ITask) => task.id === id)
+        const issue = state[tasksLogName]?.issues.filter((task: ITask) => task.id === id)
+        return issue
     }
 
-    const description: Array<ITask> = getDescription()
+    let description: Array<ITask> = getDescription()
 
     const [editMode, setEditMode]: [editmode: boolean, seEditMode: Dispatch<SetStateAction<boolean>>] = useState<boolean>(false)
     const [descriptionValue, setDescriptionValue]: [descriptionValue: string, setDescriptionValue: Dispatch<SetStateAction<string>>] = useState<string>("")
 
     const editModeOn = (): void => {
         setEditMode((prev) => !prev)
+        localStorage.setItem("editMode",'1')
     }
 
     const saveDescription = (): void => {
@@ -50,17 +52,24 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
         const issueLogName = getTasksLogName()
         dispatch(saveDescriptionToIssueActionCreator(idToReducer, issueLogName, descriptionValue))
         setEditMode((prev) => !prev)
+        localStorage.setItem("editMode","0")
     }
 
-    useEffect((): void => {
-        if (description[0].description !== descriptionValue) {
+/*    useEffect(() => {
+        description = getDescription()
+    })*/
+
+/*    useEffect((): void => {
+        debugger
+        if (description[0] !== undefined) {
+
             setDescriptionValue(description[0].description)
         }
-    }, [])
+    }, [])*/
 
     const editFieldRef = useRef<HTMLTextAreaElement>(null)
 
-    useEffect(():void => {
+    useEffect((): void => {
         if (editMode) {
             if (editFieldRef.current !== null) {
                 editFieldRef.current.focus()

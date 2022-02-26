@@ -15,9 +15,9 @@ const Main: React.FC = () => {
         <main>
             <div className={styles.wrapper}>
                 <TasksBlock tasks={backlog.issues} title={backlog.title}/>
-                <TasksBlock tasks={ready.issues} title={ready.title} prevTasks={backlog.issues}/>
-                <TasksBlock tasks={inProgress.issues} title={inProgress.title} prevTasks={ready.issues}/>
-                <TasksBlock tasks={finished.issues} title={finished.title} prevTasks={inProgress.issues}/>
+                <TasksBlock tasks={ready.issues} title={ready.title} prevTasks={backlog}/>
+                <TasksBlock tasks={inProgress.issues} title={inProgress.title} prevTasks={ready}/>
+                <TasksBlock tasks={finished.issues} title={finished.title} prevTasks={inProgress}/>
             </div>
         </main>
     );
