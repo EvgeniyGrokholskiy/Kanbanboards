@@ -32,8 +32,7 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
     const getDescription = (): Array<ITask> => {
         const id = getId()
         const tasksLogName = getTasksLogName()
-        const issue = state[tasksLogName]?.issues.filter((task: ITask) => task.id === id)
-        return issue
+        return state[tasksLogName]?.issues.filter((task: ITask) => task.id === id)
     }
 
     let description: Array<ITask> = getDescription()
@@ -41,31 +40,20 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
     const [editMode, setEditMode]: [editmode: boolean, seEditMode: Dispatch<SetStateAction<boolean>>] = useState<boolean>(false)
     const [descriptionValue, setDescriptionValue]: [descriptionValue: string, setDescriptionValue: Dispatch<SetStateAction<string>>] = useState<string>("")
 
-    const editModeOn = (): void => {
+    const editModeToggle = (): void => {
         setEditMode((prev) => !prev)
-        localStorage.setItem("editMode",'1')
     }
 
     const saveDescription = (): void => {
-        const id: string | undefined = getId()
-        const idToReducer: string = id ? id : "1"
-        const issueLogName = getTasksLogName()
-        dispatch(saveDescriptionToIssueActionCreator(idToReducer, issueLogName, descriptionValue))
         setEditMode((prev) => !prev)
-        localStorage.setItem("editMode","0")
     }
 
-/*    useEffect(() => {
-        description = getDescription()
-    })*/
-
-/*    useEffect((): void => {
-        debugger
+    useEffect((): void => {
         if (description[0] !== undefined) {
 
             setDescriptionValue(description[0].description)
         }
-    }, [])*/
+    })
 
     const editFieldRef = useRef<HTMLTextAreaElement>(null)
 
@@ -90,15 +78,19 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
                             <textarea ref={editFieldRef} className={styles.editField} value={descriptionValue}
                                       onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
                                           setDescriptionValue(event.target.value)
+                                          const id: string | undefined = getId()
+                                          const idToReducer: string = id ? id : "1"
+                                          const issueLogName = getTasksLogName()
+                                          dispatch(saveDescriptionToIssueActionCreator(idToReducer, issueLogName, event.target.value))
                                       }}/>
-                            <button className={styles.editButton} onClick={saveDescription}>Save</button>
+                            <button className={styles.editButton} onClick={editModeToggle}>Save</button>
                         </>
                         :
                         <>
                             <Link to={"/"} className={styles.close}>{<Cross/>}</Link>
                             <h1 className={styles.header}>{description[0]?.name}</h1>
                             <p className={styles.text}>{descriptionValue ? descriptionValue : "This task has no description"}</p>
-                            <button className={styles.editButton} onClick={editModeOn}>Edit</button>
+                            <button className={styles.editButton} onClick={editModeToggle}>Edit</button>
                         </>
                 }
 

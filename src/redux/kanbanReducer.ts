@@ -237,6 +237,29 @@ export const kanbanReducer: KanbanReducerType = (state: IState = initialState, a
             }
         }
 
+        case SAVE_DESCRIPTION_TO_ISSUE_ACTION: {
+
+            const {id, issueLogName, descriptionText} = action.payload
+
+            const issueArrayWithNewDescription = state[issueLogName].issues.map((task: IIssue) => {
+                if (task.id === id) {
+                    task.description = descriptionText
+                    return task
+                }
+                return task
+            })
+
+            const newIssueLog: IIssueLog = {
+                title: state[action.payload.issueLogName].title,
+                issues: issueArrayWithNewDescription
+            }
+
+            return {
+                ...state, [issueLogName]: newIssueLog
+            }
+
+        }
+
         case SAVE_STATE_ACTION: {
             return action.payload
         }

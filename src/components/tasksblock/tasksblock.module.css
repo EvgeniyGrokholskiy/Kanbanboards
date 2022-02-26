@@ -7,9 +7,9 @@
     padding: 12px;
     margin: 25px 12px;
     max-height: 590px;
-    max-width: 282px;
+    min-width: 282px;
     overflow: auto;
-    width: 100%;
+    width: 23%;
 }
 
 .title, .issues {
