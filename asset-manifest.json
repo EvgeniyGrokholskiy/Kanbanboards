@@ -1,20 +1,18 @@
 {
   "files": {
-    "main.css": "/kanbanboard/static/css/main.e65f4733.css",
-    "main.js": "/kanbanboard/static/js/main.876376c9.js",
-    "static/js/787.1d5915ea.chunk.js": "/kanbanboard/static/js/787.1d5915ea.chunk.js",
-    "static/media/user-avatar.svg": "/kanbanboard/static/media/user-avatar.9e0406666da8e2e0d6ba57b4c2af8b0a.svg",
+    "main.css": "/kanbanboard/static/css/main.7ba4daa7.css",
+    "main.js": "/kanbanboard/static/js/main.ca04f5bc.js",
+    "static/media/user-avatar.svg": "/kanbanboard/static/media/user-avatar.bf4ee1370e7ee0e6b2cff5a4fb3e43c0.svg",
     "index.html": "/kanbanboard/index.html",
-    "static/media/cross.svg": "/kanbanboard/static/media/cross.02d9f91933f4ccf92ddba2bb8c356400.svg",
-    "static/media/arrow-down.svg": "/kanbanboard/static/media/arrow-down.499a81f7058420ec4c251b760054534d.svg",
-    "static/media/plus.svg": "/kanbanboard/static/media/plus.d8fce16f935c6ec2b3e2a1f23c411e42.svg",
-    "static/media/rectangle.svg": "/kanbanboard/static/media/rectangle.9b1e9463a0d58eecb054.svg",
-    "main.e65f4733.css.map": "/kanbanboard/static/css/main.e65f4733.css.map",
-    "main.876376c9.js.map": "/kanbanboard/static/js/main.876376c9.js.map",
-    "787.1d5915ea.chunk.js.map": "/kanbanboard/static/js/787.1d5915ea.chunk.js.map"
+    "static/media/cross.svg": "/kanbanboard/static/media/cross.1aa1aa3268b6436cd4f6b3b8276f9484.svg",
+    "static/media/arrow-down.svg": "/kanbanboard/static/media/arrow-down.79b9a425c16f47c08777b55fad816362.svg",
+    "static/media/plus.svg": "/kanbanboard/static/media/plus.a0856840dac171edee72e5d2f2cea7b5.svg",
+    "static/media/rectangle.svg": "/kanbanboard/static/media/rectangle.36067fdaefd6365b519b.svg",
+    "main.7ba4daa7.css.map": "/kanbanboard/static/css/main.7ba4daa7.css.map",
+    "main.ca04f5bc.js.map": "/kanbanboard/static/js/main.ca04f5bc.js.map"
   },
   "entrypoints": [
-    "static/css/main.e65f4733.css",
-    "static/js/main.876376c9.js"
+    "static/css/main.7ba4daa7.css",
+    "static/js/main.ca04f5bc.js"
   ]
 }
