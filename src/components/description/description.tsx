@@ -29,29 +29,43 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
         return task ? task : "ready"
     }
 
-    const getDescription = (): Array<ITask> => {
+    const getDescription = (): ITask => {
         const id = getId()
         const tasksLogName = getTasksLogName()
-        return state[tasksLogName]?.issues.filter((task: ITask) => task.id === id)
+        const array = state[tasksLogName]?.issues.filter((task: ITask) => task.id === id)
+        return array[0]
     }
 
-    let description: Array<ITask> = getDescription()
+    let description: ITask = getDescription()
 
     const [editMode, setEditMode]: [editmode: boolean, seEditMode: Dispatch<SetStateAction<boolean>>] = useState<boolean>(false)
-    const [descriptionValue, setDescriptionValue]: [descriptionValue: string, setDescriptionValue: Dispatch<SetStateAction<string>>] = useState<string>("")
 
     const editModeToggle = (): void => {
         setEditMode((prev) => !prev)
-    }
 
-    const saveDescription = (): void => {
-        setEditMode((prev) => !prev)
+        const switchValue = localStorage.getItem("edit")
+
+        switch (switchValue) {
+            case "1":
+                localStorage.setItem("edit", "0")
+                break
+            case "0": {
+                localStorage.setItem("edit", "1")
+                break
+            }
+            case null:
+                localStorage.setItem("edit", "1")
+                break
+
+        }
     }
 
     useEffect((): void => {
-        if (description[0] !== undefined) {
-
-            setDescriptionValue(description[0].description)
+        const mode = localStorage.getItem("edit")
+        if (mode === "1" && !editMode) {
+            setEditMode(true)
+        } else if (mode === "0" && editMode){
+            setEditMode(false)
         }
     })
 
@@ -60,6 +74,9 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
     useEffect((): void => {
         if (editMode) {
             if (editFieldRef.current !== null) {
+                const cursorEndPoint = editFieldRef.current.innerHTML.length
+                editFieldRef.current.selectionEnd = cursorEndPoint
+                editFieldRef.current.selectionStart = cursorEndPoint
                 editFieldRef.current.focus()
             }
         }
@@ -67,17 +84,14 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.description} onDoubleClick={() => {
-                saveDescription()
-            }}>
+            <div className={styles.description} onDoubleClick={editModeToggle}>
 
                 {
                     editMode ?
                         <>
-                            <h1 className={styles.header}>{description[0]?.name}</h1>
-                            <textarea ref={editFieldRef} className={styles.editField} value={descriptionValue}
+                            <h1 className={styles.header}>{description?.name}</h1>
+                            <textarea ref={editFieldRef} className={styles.editField} value={description?.description}
                                       onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-                                          setDescriptionValue(event.target.value)
                                           const id: string | undefined = getId()
                                           const idToReducer: string = id ? id : "1"
                                           const issueLogName = getTasksLogName()
@@ -88,8 +102,8 @@ const Description: React.FC<DescriptionProps> = ({state}: DescriptionProps) => {
                         :
                         <>
                             <Link to={"/"} className={styles.close}>{<Cross/>}</Link>
-                            <h1 className={styles.header}>{description[0]?.name}</h1>
-                            <p className={styles.text}>{descriptionValue ? descriptionValue : "This task has no description"}</p>
+                            <h1 className={styles.header}>{description?.name}</h1>
+                            <pre className={styles.text}>{description?.description ? description?.description : "This task has no description"}</pre>
                             <button className={styles.editButton} onClick={editModeToggle}>Edit</button>
                         </>
                 }
